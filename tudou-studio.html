@@ -1318,6 +1318,128 @@
       display: none !important;
     }
 
+    /* 内测码登录界面 */
+    .login-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--cream);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-2xl);
+      max-width: 420px;
+      width: 90%;
+      box-shadow: var(--glass-shadow);
+      text-align: center;
+    }
+
+    .login-logo {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--amber), var(--terracotta));
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto var(--space-xl);
+      font-size: 40px;
+      box-shadow: 0 8px 24px var(--amber-glow);
+    }
+
+    .login-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--charcoal);
+      margin-bottom: var(--space-sm);
+    }
+
+    .login-subtitle {
+      font-size: 14px;
+      color: var(--charcoal-muted);
+      margin-bottom: var(--space-xl);
+    }
+
+    .login-input {
+      width: 100%;
+      padding: var(--space-md);
+      background: var(--paper);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      font-size: 16px;
+      font-family: inherit;
+      color: var(--charcoal);
+      margin-bottom: var(--space-md);
+      text-align: center;
+      letter-spacing: 0.1em;
+    }
+
+    .login-input:focus {
+      outline: none;
+      border-color: var(--amber);
+      box-shadow: 0 0 0 3px var(--amber-glow);
+    }
+
+    .login-input::placeholder {
+      letter-spacing: normal;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: var(--space-md);
+      background: linear-gradient(135deg, var(--amber), var(--terracotta));
+      border: none;
+      border-radius: var(--radius-md);
+      color: var(--paper);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      box-shadow: 0 4px 12px var(--amber-glow);
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--amber-glow);
+    }
+
+    .login-error {
+      color: var(--terracotta);
+      font-size: 13px;
+      margin-top: var(--space-sm);
+      display: none;
+    }
+
+    .login-hint {
+      font-size: 12px;
+      color: var(--charcoal-muted);
+      margin-top: var(--space-lg);
+    }
+
+    /* 用户信息栏 */
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      background: var(--glass-bg);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      color: var(--charcoal-light);
+    }
+
+    .user-info span {
+      font-weight: 600;
+      color: var(--amber);
+    }
+
     /* 响应式 */
     @media (max-width: 1200px) {
       .app {
@@ -1361,38 +1483,23 @@
   </style>
 </head>
 <body>
+  <!-- 内测码登录界面 -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-card">
+      <div class="login-logo">🥔</div>
+      <h1 class="login-title">土豆 Image-2</h1>
+      <p class="login-subtitle">内测阶段，请输入内测码</p>
+      <input type="text" class="login-input" id="betaCodeInput" placeholder="输入内测码" maxlength="12">
+      <button class="login-btn" onclick="validateBetaCode()">进入体验</button>
+      <p class="login-error" id="loginError">内测码无效，请检查后重试</p>
+      <p class="login-hint">没有内测码？联系管理员获取</p>
+    </div>
+  </div>
+
   <div class="app">
     <!-- 左侧工具栏 -->
     <aside class="toolbar">
       <div class="toolbar-logo">🥔</div>
-
-      <div class="toolbar-divider"></div>
-
-      <button class="toolbar-btn active" onclick="switchTool('create')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span class="tooltip">创作</span>
-      </button>
-
-      <button class="toolbar-btn" onclick="switchTool('gallery')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <rect x="3" y="3" width="18" height="18" rx="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="8.5" cy="8.5" r="1.5"/>
-          <path d="M21 15l-5-5L5 21"/>
-        </svg>
-        <span class="tooltip">图库</span>
-      </button>
-
-      <button class="toolbar-btn" onclick="switchTool('templates')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <rect x="3" y="3" width="7" height="7" rx="1" stroke-linecap="round" stroke-linejoin="round"/>
-          <rect x="14" y="3" width="7" height="7" rx="1" stroke-linecap="round" stroke-linejoin="round"/>
-          <rect x="3" y="14" width="7" height="7" rx="1" stroke-linecap="round" stroke-linejoin="round"/>
-          <rect x="14" y="14" width="7" height="7" rx="1" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span class="tooltip">模板</span>
-      </button>
 
       <div class="toolbar-spacer"></div>
 
@@ -1401,7 +1508,7 @@
           <circle cx="12" cy="12" r="3"/>
           <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
         </svg>
-        <span class="tooltip">设置</span>
+        <span class="tooltip">退出</span>
       </button>
     </aside>
 
@@ -1445,56 +1552,7 @@
             </svg>
           </div>
           <h1 class="welcome-title">土豆 Image-2</h1>
-          <p class="welcome-desc">用自然语言描述你的想象，AI 将为你绘制独一无二的视觉作品。支持参考图、智能标签、迭代优化。</p>
-
-          <div class="welcome-features">
-            <div class="feature-card" onclick="setPrompt('一只优雅的猫咪在月光下散步')">
-              <div class="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path d="M12 19l7-7 3 3-7 7-3-3z" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M2 2l7.586 7.586" stroke-linecap="round" stroke-linejoin="round"/>
-                  <circle cx="11" cy="11" r="2"/>
-                </svg>
-              </div>
-              <div class="feature-title">文字创作</div>
-              <div class="feature-desc">描述场景、风格、情绪，AI 为你实现</div>
-            </div>
-
-            <div class="feature-card" onclick="document.getElementById('fileInput').click()">
-              <div class="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <rect x="3" y="3" width="18" height="18" rx="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <circle cx="8.5" cy="8.5" r="1.5"/>
-                  <path d="M21 15l-5-5L5 21"/>
-                </svg>
-              </div>
-              <div class="feature-title">参考图生成</div>
-              <div class="feature-desc">上传图片作为风格或内容参考</div>
-            </div>
-
-            <div class="feature-card" onclick="setPrompt('将上一张图改成水彩画风格')">
-              <div class="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
-                </svg>
-              </div>
-              <div class="feature-title">迭代优化</div>
-              <div class="feature-desc">基于生成结果继续调整完善</div>
-            </div>
-
-            <div class="feature-card" onclick="setPrompt('赛博朋克风格的未来城市')">
-              <div class="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <polygon points="12 2 2 7 12 12 22 7 12 2"/>
-                  <polyline points="2 17 12 22 22 17"/>
-                  <polyline points="2 12 12 17 22 12"/>
-                </svg>
-              </div>
-              <div class="feature-title">风格模板</div>
-              <div class="feature-desc">快速应用预设的艺术风格</div>
-            </div>
-          </div>
+          <p class="welcome-desc">输入提示词，开始创作</p>
         </div>
 
         <div class="messages hidden" id="messages"></div>
@@ -1622,6 +1680,56 @@
   </div>
 
   <script>
+    // ========== 内测码系统 ==========
+    const BETA_CODES = [
+      'TD2X-7K9M-PQ4W',
+      'TD2X-3N8L-JR5Y',
+      'TD2X-6H2B-VW8Z',
+      'TD2X-9F4C-AM7Q',
+      'TD2X-1D5K-XP3E',
+      'TD2X-8G6N-SJ2R',
+      'TD2X-4T9W-BL6H',
+      'TD2X-2M3Y-FK8P',
+      'TD2X-5J7Z-QC4V',
+      'TD2X-0P6X-YN9S'
+    ];
+
+    let currentUser = null;
+
+    function validateBetaCode() {
+      const input = document.getElementById('betaCodeInput');
+      const error = document.getElementById('loginError');
+      const code = input.value.trim().toUpperCase();
+
+      if (BETA_CODES.includes(code)) {
+        // 内测码有效
+        currentUser = code;
+        localStorage.setItem('tudou_beta_user', code);
+        document.getElementById('loginOverlay').classList.add('hidden');
+        loadUserHistory();
+      } else {
+        // 内测码无效
+        error.style.display = 'block';
+        input.style.borderColor = 'var(--terracotta)';
+      }
+    }
+
+    function checkLoginStatus() {
+      const savedUser = localStorage.getItem('tudou_beta_user');
+      if (savedUser && BETA_CODES.includes(savedUser)) {
+        currentUser = savedUser;
+        document.getElementById('loginOverlay').classList.add('hidden');
+        loadUserHistory();
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('tudou_beta_user');
+      currentUser = null;
+      location.reload();
+    }
+
+    // ========== API 配置 ==========
     const API_KEY = 'sk-Mlyj2dPjiJRNPK5iu4r9Br0EAgaBg78ETG0818xlPlvCdGgx';
     const API_URL = 'https://api.apimart.ai/v1';
     const MAX_IMAGE_SIZE = 1024;
@@ -1805,8 +1913,10 @@
       onInputChange();
     }
 
-    function loadHistory() {
-      const saved = localStorage.getItem('tudou_img_history');
+    function loadUserHistory() {
+      if (!currentUser) return;
+
+      const saved = localStorage.getItem(`tudou_img_history_${currentUser}`);
       if (saved) {
         conversationHistory = JSON.parse(saved);
         conversationHistory.forEach((msg, i) => renderMsg(msg, i));
@@ -1822,14 +1932,16 @@
     }
 
     function saveHistory() {
+      if (!currentUser) return;
+
       try {
         // 只保存最近 10 条记录，避免超出 localStorage 限制
         const recentHistory = conversationHistory.slice(-10);
-        localStorage.setItem('tudou_img_history', JSON.stringify(recentHistory));
+        localStorage.setItem(`tudou_img_history_${currentUser}`, JSON.stringify(recentHistory));
       } catch (err) {
         console.warn('保存历史失败，可能是存储空间不足:', err);
         // 清空旧历史，保留当前会话
-        localStorage.removeItem('tudou_img_history');
+        localStorage.removeItem(`tudou_img_history_${currentUser}`);
       }
     }
 
@@ -1837,7 +1949,10 @@
       if (confirm('确定清空所有创作记录？')) {
         conversationHistory = [];
         lastGeneratedImages = [];
-        localStorage.removeItem('tudou_img_history');
+        sessionImages = {};
+        if (currentUser) {
+          localStorage.removeItem(`tudou_img_history_${currentUser}`);
+        }
         location.reload();
       }
     }
@@ -2355,11 +2470,13 @@
     }
 
     function openSettings() {
-      alert('设置功能开发中...');
+      if (confirm('确定退出登录吗？')) {
+        logout();
+      }
     }
 
     // 初始化
-    loadHistory();
+    checkLoginStatus();
   </script>
 </body>
 </html>
